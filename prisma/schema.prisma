@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String       @id @default(uuid())
+  email      String       @unique
+  password   String
+  name       String? //optional
+  address    String? //optional
+  role       Role         @default(USER)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @default(now())
+  orders     Order[] // This creates a one-to-many relationship between User and Order
+  UserTokens UserTokens[]
+}
+
+model UserTokens {
+  id String @id @default(uuid())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  refreshToken String
+  family       String   @unique
+  browserInfo  String?
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+}
+
+model Product {
+  id                 String     @id @default(uuid())
+  name               String     @unique
+  urlName            String     @unique
+  picture            String?
+  basePrice          Decimal
+  discountPercentage Int        @default(0)
+  stock              Int        @default(0)
+  description        String?
+  createdAt          DateTime   @default(now())
+  categories         Category[]
+  orders             Order[] // This creates a one-to-many relationship between Product and Order
+}
+
+model Category {
+  id       String    @id @default(uuid())
+  name     String    @unique
+  products Product[]
+}
+
+model Order {
+  id            String   @id @default(uuid())
+  user          User?    @relation(fields: [userId], references: [id])
+  userId        String?
+  product       Product  @relation(fields: [productId], references: [id])
+  productId     String
+  amount        Int      @default(1)
+  totalPrice    Decimal
+  reviewNote    Int?
+  reviewComment String?
+  createdAt     DateTime @default(now())
+  invoice       Invoice? // Remove @relation from this field
+  orderId       String?
+}
+
+model Invoice {
+  id            String   @id @default(uuid())
+  order         Order    @relation(fields: [orderId], references: [id])
+  orderId       String   @unique
+  invoiceNumber String   @unique
+  totalAmount   Decimal
+  createdAt     DateTime @default(now())
+}
+
+enum Role {
+  USER
+  ADMIN
+}
