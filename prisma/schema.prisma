@@ -19,10 +19,24 @@ model User {
   role       Role         @default(USER)
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @default(now())
+  profile    Profile?
   orders     Order[] // This creates a one-to-many relationship between User and Order
   UserTokens UserTokens[]
 }
-
+model Profile {
+  id           String      @id @default(uuid())
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String      @unique
+  addressLine1 String
+  addressLine2 String?
+  state        String
+  city         String
+  company      String
+  zipCode      String
+  phoneNumber  String
+  latitude     String?
+  longitude    String?
+}
 model UserTokens {
   id String @id @default(uuid())
 

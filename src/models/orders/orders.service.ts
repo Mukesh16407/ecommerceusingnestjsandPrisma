@@ -21,7 +21,7 @@ async create(
   createOrderDto: CreateOrderDto,
 ): Promise<Order> {
   const totalPrice = await this.calculateTotalPrice(createOrderDto);
-   console.log(totalPrice,"totalPrice")
+   
   const order = await this.prisma.order.create({
     data: { ...createOrderDto, userId, totalPrice },
     include: {

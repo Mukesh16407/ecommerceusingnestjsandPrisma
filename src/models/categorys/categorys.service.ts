@@ -89,7 +89,7 @@ private updateCategoryAndName(
   updateCategoryDto: UpdateCategoryDto,
 ): Promise<Category> {
   const name = this.capitalizeOnlyFirstLetter(updateCategoryDto.name);
-   console.log(name,"name")
+  
   return this.prisma.category.update({
     where: { id },
     data: { ...updateCategoryDto, name },

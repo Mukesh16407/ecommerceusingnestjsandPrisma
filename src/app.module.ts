@@ -11,9 +11,10 @@ import { AuthsModule } from './auths/auths.module';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { AccessJwtAuthGuard } from './auths/access-jwt-auth.guard';
+import { ProfilesModule } from './models/profiles/profiles.module';
 
 @Module({
-  imports: [PrismaModule, UsersModule, ProductsModule, CategorysModule, OrdersModule, InvoicesModule, AuthsModule],
+  imports: [PrismaModule, UsersModule, ProductsModule, CategorysModule, OrdersModule, InvoicesModule, AuthsModule,ProfilesModule],
   providers: [ {
     provide: APP_GUARD,
     useClass: AccessJwtAuthGuard,
