@@ -1,10 +1,11 @@
 
 
 import { IsOptional, IsString } from 'class-validator';
+import { CreateUserDto } from 'src/models/users/dto/create-user.dto';
 
 export class CreateProfileDto {
    @IsString()
-    email: string;
+   addressLine1: string;
 
     @IsString()
     @IsOptional()
@@ -36,6 +37,8 @@ export class CreateProfileDto {
     
     @IsString()
     longitude: string;
+
+    user: CreateUserDto;
 }
 
 

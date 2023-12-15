@@ -3,6 +3,7 @@
 import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import {ConfigService} from '@nestjs/config'
+import { Logger } from 'winston';
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit  {
      /** Optional — if you leave it out,
@@ -10,6 +11,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit  {
    *
    * https://docs.nestjs.com/recipes/prisma
    */
+
   async onModuleInit(): Promise<void> {
     await this.$connect();
   }
