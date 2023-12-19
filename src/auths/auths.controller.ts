@@ -54,7 +54,7 @@ async login(@Body() { email, password }: LoginCredentialsDto, @Req() request: Re
    @Post('logout')
    @HttpCode(HttpStatus.OK)
    async logout(@Body() { refreshToken }: LogoutDto): Promise<void> {
-    
+      
      return this.authsService.logout(refreshToken);
    }
 }

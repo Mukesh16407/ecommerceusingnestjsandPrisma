@@ -1,11 +1,31 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class ProfilesService {
-  create(createProfileDto: CreateProfileDto) {
-    return 'This action adds a new profile';
+  constructor(private readonly prisma: PrismaService){}
+  async create(createProfileDto: CreateProfileDto): Promise<any> {
+    try {
+      const createdProfile = await this.prisma.profile.create({
+        data: {
+          ...createProfileDto,
+          user: {
+            create: createProfileDto.user,
+          },
+        },
+      });
+    console.log(createdProfile,"CreateProfile")
+      // If the creation is successful, you can proceed with other actions or return a success response.
+      return {
+        profile: createdProfile,
+        message: 'Profile created successfully',
+        status: HttpStatus.CREATED,
+      };
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   findAll() {

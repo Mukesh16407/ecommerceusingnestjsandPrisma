@@ -48,6 +48,7 @@ export class AuthsService {
     await this.jwtService.verifyAsync(refreshToken, refreshJwtConfig);
     await this.validateRefreshToken(refreshToken, refreshTokenContent);
 
+    console.log(refreshTokenContent,"refreshTokenContent")
     const userRole = await this.getUserRole(refreshTokenContent.sub);
   
     const accessToken = await this.generateAccessToken({

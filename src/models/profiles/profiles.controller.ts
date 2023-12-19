@@ -2,15 +2,19 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ProfilesService } from './profiles.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Public } from 'src/auths/public.decorator';
 
 @ApiTags('profiles')
 @Controller('profiles')
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
 
+  @ApiOperation({ summary: 'Creates a user Profile' })
+  @Public()
   @Post()
   create(@Body() createProfileDto: CreateProfileDto) {
+    
     return this.profilesService.create(createProfileDto);
   }
 
